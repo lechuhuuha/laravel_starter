@@ -56,7 +56,7 @@
                                             <button type="button" class="btn btn-default"
                                                 data-bs-dismiss="modal">Huy</button>
                                             <form action="{{ route('admin.users.delete', $item->id) }}" method="post">
-                                                <button type="button" class="btn btn-danger">Xoa</button>
+                                                <button type="submit" class="btn btn-danger">Xoa</button>
                                             </form>
 
                                         </div>
