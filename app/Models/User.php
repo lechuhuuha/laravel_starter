@@ -24,7 +24,7 @@ class User extends Authenticatable
         'gender',
         'role'
     ];
-
+    protected $with = ['invoices'];
     /**
      * The attributes that should be hidden for arrays.
      *
@@ -43,4 +43,12 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    public function invoices()
+    {
+        return $this->hasMany(Invoice::class)->latest();
+    }
+    public function setPasswordAttribute($value)
+    {
+        $this->attributes['password'] = bcrypt($value);
+    }
 }

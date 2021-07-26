@@ -16,6 +16,7 @@
                     <th scope="col">name</th>
                     <th scope="col">email</th>
                     <th scope="col">address</th>
+                    <th scope="col">Invoices</th>
                     <th scope="col">gender</th>
                     <th scope="col">role</th>
                     <th scope="col" colspan="2">Action</th>
@@ -27,11 +28,12 @@
 
                     <tr>
                         <th scope="row">{{ $item->id }}</th>
-                        <td>{{ $item->name }}</td>
+                        <td> <a href="{{ route('admin.users.show', $item->id) }}"> {{ $item->name }}</a></td>
                         <td>{{ $item->email }}</td>
                         <td>{{ $item->address }}</td>
-                        <td>{{ $item->gender }}</td>
-                        <td>{{ $item->role }}</td>
+                        <td>{{ $item->invoices->count() }}</td>
+                        <td>{{ $item->gender == config('common.user.gender.male') ? 'Nam' : 'Nu' }}</td>
+                        <td>{{ $item->role == config('common.user.role.user') ? 'Nguoi dung' : 'Admin' }}</td>
                         <td>
                             <a class="btn btn-primary" href="{{ route('admin.users.edit', $item->id) }}">Update</a>
 
@@ -69,6 +71,7 @@
             </tbody>
 
         </table>
+        {{ $users->links() }}
 
     @else
         <h1>ko co du lieu</h1>

@@ -15,47 +15,36 @@ use Illuminate\Support\Facades\DB;
 |
 */
 
+
 Route::get('/', function () {
     return view('layout');
 });
-Route::get('admin/users', function () {
-    // $list = DB::table('users')->get();
-    $list = User::all();
-    return view('admin/users/index', ['users' => $list]);
-})->name('admin.users.index');
+Route::group(
+    [
+        'prefix' => 'admin',
+        'as' => 'admin.',
+        'namespace' => 'Admin'
+    ],
+    function () {
+        Route::group([
+            'prefix' => 'users',
+            'as' => 'users.'
+        ], function () {
+            Route::get('', 'UserController@index')->name('index');
+            Route::get('create', 'UserController@create')->name('create');
+            Route::post('store', 'UserController@store')->name('store');
 
-Route::post('admin/users/store', function () {
-    $data = (request()->all());
-    $data['password'] = "$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi";
-    User::create($data);
-    return redirect()->route('admin.users.index');
-})->name('admin.users.store');
+            Route::get('{user}', 'UserController@show')->name('show');
 
-Route::view('admin/users/create', '/admin/users/create')->name('admin.users.create');
+            Route::get('edit/{user}', 'UserController@edit')->name('edit');
 
+            Route::post('update/{user}', 'UserController@update')->name('update');
 
-Route::get('admin/users/edit/{id}', function ($id) {
-    $data = User::find($id);
+            Route::post('detele/{user}', 'UserController@delete')->name('delete');
+        });
+    }
 
-    return view('admin/users/edit', [
-        'data' => $data
-    ]);
-})->name('admin.users.edit');
-
-Route::post('admin/users/update/{id}', function ($id) {
-    $data = request()->all();
-    $data = $data['user'];
-    $user = User::find($id);
-    $user->update($data);
-    return redirect()->route('admin.users.index');
-})->name('admin.users.update');
-
-Route::post('admin/users/detele/{id}', function ($id) {
-    // dd($id);
-    $user = User::find($id);
-    $user->delete();
-    return redirect()->route('admin.users.index');
-})->name('admin.users.delete');
+);
 
 
 

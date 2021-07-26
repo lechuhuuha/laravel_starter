@@ -2,6 +2,10 @@
 
 namespace Database\Seeders;
 
+use App\Models\Invoice;
+use App\Models\User;
+use Database\Factories\InvoiceFactory;
+use Database\Factories\UserFactory;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -13,9 +17,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        \App\Models\User::factory(10)->create();
-        // $this->call(UserSeeder::class);
-        $this->call(CategorySeeder::class);
-        $this->call(ProductsSeeder::class);
+        // \App\Models\User::factory(10)->create();
+        // // $this->call(UserSeeder::class);
+        // $this->call(CategorySeeder::class);
+        // $this->call(ProductsSeeder::class);
+        Invoice::factory(10)->for(User::factory()->create())->create();
     }
 }
